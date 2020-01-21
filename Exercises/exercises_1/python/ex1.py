@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from pip._vendor.distlib.compat import raw_input
 
 from python.computeCost import computeCost
@@ -46,7 +47,7 @@ def run():
     raw_input()
 
     print('\nRunning Gradient Descent ...\n')
-    # run gradient descent
+    # run gradient descX[:, 1]ent
     theta = gradientDescent(X, y.to_numpy().reshape(len(y), 1), theta, alpha, iterations)
 
     # print theta to screen
@@ -55,22 +56,25 @@ def run():
     print('Expected theta values (approx)\n')
     print(' -3.6303\n  1.1664\n\n')
 
-    # # Plot the linear fit
-    # hold on # keep previous plot visible
-    # plot(X(:,2), X*theta, '-')
-    # legend('Training data', 'Linear regression')
-    # hold off # don't overlay any more plots on this figure
-    #
-    # # Predict values for population sizes of 35,000 and 70,000
-    # predict1 = [1, 3.5] *theta
-    # print('For population = 35,000, we predict a profit of #f\n',...
-    #     predict1*10000)
-    # predict2 = [1, 7] * theta
-    # print('For population = 70,000, we predict a profit of #f\n',...
-    #     predict2*10000)
-    #
-    # print('Program paused. Press enter to continue.\n')
-    # raw_input()
+    # Plot the linear fit
+    fig, ax = plt.subplots()
+    ax.plot(X[:, 1], y, 'rx', ms=10)
+    ax.plot(X[:, 1], np.matmul(X, theta), '-')
+    # Set the y axis label
+    plt.ylabel('Profit in $10,000s')
+    # Set the x axis label
+    plt.xlabel('Population of City in 10,000s')
+    plt.legend(labels=('Training data', 'Linear regression'))
+    plt.show()
+
+    # Predict values for population sizes of 35,000 and 70,000
+    predict1 = np.matmul([1, 3.5], theta)
+    print('For population = 35,000, we predict a profit of ' + str(predict1*10000) + '\n')
+    predict2 = np.matmul([1, 7], theta)
+    print('For population = 70,000, we predict a profit of ' + str(predict2*10000) + '\n')
+
+    print('Program paused. Press enter to continue.\n')
+    raw_input()
 
 
 if __name__ == '__main__':
