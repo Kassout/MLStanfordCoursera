@@ -1,10 +1,10 @@
 import numpy as np
 
 
-def computeCost(X, y, theta):
+def computeCostMulti(X, y, theta):
     """
-        computeCost() Compute cost for linear regression
-        J = computeCost(X, y, theta) computes the cost of using theta as the
+        computeCostMulti() Compute cost for linear regression with multiple variables
+        J = computeCostMulti(X, y, theta) computes the cost of using theta as the
         parameter for linear regression to fit the data points in X and y
     """
 
@@ -16,6 +16,6 @@ def computeCost(X, y, theta):
     J = 0
 
     # Compute the cost of a particular choice of theta
-    J = 1 / (2*m) * np.sum(np.square(np.subtract(np.matmul(X, theta).reshape(len(X), 1), y)))
+    J = 1 / (2 * m) * np.sum(np.square(np.subtract(np.matmul(X, theta), y)))
 
     return J

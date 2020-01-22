@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from pip._vendor.distlib.compat import raw_input
-from mpl_toolkits.mplot3d import Axes3D
 
 from python.computeCost import computeCost
 from python.gradientDescent import gradientDescent
@@ -19,13 +18,13 @@ This file contains code that helps you get started on the
 linear exercise. You will need to complete the following functions
 in this exericse:
 
- plotData.m
- gradientDescent.m
- computeCost.m
- gradientDescentMulti.m
- computeCostMulti.m
- featureNormalize.m
- normalEqn.m
+ plotData.py
+ gradientDescent.py
+ computeCost.py
+ gradientDescentMulti.py
+ computeCostMulti.py
+ featureNormalize.py
+ normalEqn.py
 
 For this exercise, you will not need to change any code in this file,
 or any other files other than those mentioned above.
@@ -33,6 +32,7 @@ or any other files other than those mentioned above.
 x refers to the population size in 10,000s
 y refers to the profit in $10,000s
 """
+
 
 def run():
 
