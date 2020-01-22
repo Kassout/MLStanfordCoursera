@@ -1,14 +1,42 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
 from pip._vendor.distlib.compat import raw_input
+from mpl_toolkits.mplot3d import Axes3D
 
 from python.computeCost import computeCost
 from python.gradientDescent import gradientDescent
 from python.plotData import plotData
 
+"""
+Machine Learning Online Class - Exercise 1: Linear Regression
+
+Instructions
+------------
+
+This file contains code that helps you get started on the
+linear exercise. You will need to complete the following functions
+in this exericse:
+
+ plotData.m
+ gradientDescent.m
+ computeCost.m
+ gradientDescentMulti.m
+ computeCostMulti.m
+ featureNormalize.m
+ normalEqn.m
+
+For this exercise, you will not need to change any code in this file,
+or any other files other than those mentioned above.
+
+x refers to the population size in 10,000s
+y refers to the profit in $10,000s
+"""
 
 def run():
+
+    # ======================= Part 2: Plotting =======================
     print('Plotting Data ...\n')
     data = pd.read_csv('ex1data1.csv', sep=',', header=None)
     X = data.loc[:, 0]
@@ -21,6 +49,8 @@ def run():
 
     print('Program paused. Press enter to continue.\n')
     raw_input()
+
+    # =================== Part 3: Cost and Gradient descent ===================
 
     # Add a column of ones to x
     X = np.concatenate((np.ones((m, 1)), data.loc[:, 0].to_numpy().reshape(len(X), 1)), axis=1)
@@ -75,6 +105,43 @@ def run():
 
     print('Program paused. Press enter to continue.\n')
     raw_input()
+    
+    # ============= Part 4: Visualizing J(theta_0, theta_1) =============
+    print('Visualizing J(theta_0, theta_1) ...\n')
+
+    # Grid over which we will calculate J
+    theta0_vals = np.linspace(-10, 10, 100)
+    theta1_vals = np.linspace(-1, 4, 100)
+
+    # initialize J_vals to a matrix of 0's
+    J_vals = np.zeros((len(theta0_vals), len(theta1_vals)))
+
+    # Fill out J_vals
+    for i in range(0, len(theta0_vals)):
+        for j in range(0, len(theta1_vals)):
+            t = np.array([[theta0_vals[i]], [theta1_vals[j]]])
+            J_vals[i, j] = computeCost(X, y.to_numpy().reshape(len(y), 1), t)
+
+    # Because of the way meshgrids work in the surf command, we need to
+    # transpose J_vals before calling surf, or else the axes will be flipped
+    J_vals = np.transpose(J_vals)
+
+    # Surface plot
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    theta0_vals, theta1_vals = np.meshgrid(theta0_vals, theta1_vals)
+    ax.plot_surface(X=theta0_vals, Y=theta1_vals, Z=J_vals, cmap=cm.coolwarm)
+    plt.xlabel('theta_0')
+    plt.ylabel('theta_1')
+    plt.show()
+
+    # Contour plot
+    # Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100
+    plt.contour(theta0_vals, theta1_vals, J_vals, np.linspace(0.01, 100, 15).tolist())
+    plt.xlabel('theta_0')
+    plt.ylabel('theta_1')
+    plt.plot(theta[0], theta[1], 'rx', ms=10)
+    plt.show()
 
 
 if __name__ == '__main__':
