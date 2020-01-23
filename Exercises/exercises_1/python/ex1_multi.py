@@ -7,6 +7,7 @@ from pip._vendor.distlib.compat import raw_input
 from python.computeCost import computeCost
 from python.gradientDescent import gradientDescent
 from python.gradientDescentMulti import gradientDescentMulti
+from python.normalEqn import normalEqn
 from python.plotData import plotData
 from python.featureNormalize import featureNormalize
 
@@ -94,6 +95,33 @@ def run():
 
     print('Program paused. Press enter to continue.\n')
     raw_input()
+
+    # ================ Part 3: Normal Equations ================
+    print('Solving with normal equations...\n');
+
+    # Load Data
+    data = pd.read_csv('ex1data2.csv', sep=',', header=None)
+    X = data.loc[:, 0:1]
+    y = data.loc[:, 2]
+    m = len(y)
+
+    # Add intercept term to X
+    X = np.concatenate((np.ones((m, 1)), X), axis=1)
+
+    # Calculate the parameters from the normal equation
+    theta = normalEqn(X, y)
+
+    # Display normal equation's result
+    print('Theta computed from the normal equations: \n')
+    print(str(theta) + '\n')
+    print('\n')
+
+
+    # Estimate the price of a 1650 sq-ft, 3 br house
+    price = np.array([1, 1650, 3]) @ theta
+
+    print('Predicted price of a 1650 sq-ft, '
+          '3 br house (using gradient descent):\n' + str(price) + '\n')
 
 
 if __name__ == '__main__':
