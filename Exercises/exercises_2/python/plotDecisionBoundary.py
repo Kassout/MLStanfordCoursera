@@ -17,7 +17,7 @@ def plotDecisionBoundary(theta, X, y):
     """
 
     # Plot Data
-    plotData(X[:, 1:2], y)
+    plotData(X[:, 1:3], y)
 
     if len(X) <= 3:
         # Only need 2 points to define a line, so choose two endpoints
@@ -37,7 +37,7 @@ def plotDecisionBoundary(theta, X, y):
         u = np.linspace(-1, 1.5, 50)
         v = np.linspace(-1, 1.5, 50)
 
-        z = np.zeros(len(u), len(v))
+        z = np.zeros((len(u), len(v)))
         # Evaluate z = theta*x over the grid
         for i in range(len(u)):
             for j in range(len(v)):

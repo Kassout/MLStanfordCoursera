@@ -15,8 +15,8 @@ def mapFeature(X1, X2):
     """
     
     degree = 6
-    out = np.ones(np.len(X1[:, 1]))
+    out = np.ones((1, degree))
     for i in range(degree):
         for j in range(i+1):
-            out[:, end + 1] = (X1 ^ (i - j)) * (X2 ^ j)
+            out[:, len(out)+1] = (X1 ^ (i - j)) * (X2 ^ j)
     
