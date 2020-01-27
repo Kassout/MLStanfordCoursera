@@ -36,7 +36,7 @@ def run():
     # the problem we are working with.
     data = np.genfromtxt('ex2data1.csv', delimiter=',')
     X = data[:, [0, 1]]
-    y = data[:, 2]
+    y = data[:, [2]]
 
     print(['Plotting data with + indicating (y = 1) examples and o indicating (y = 0) examples.\n'])
 
@@ -78,7 +78,7 @@ def run():
 
     # Compute and display cost and gradient with non-zero theta
     test_theta = np.array([[-24], [0.2], [0.2]])
-    cost, grad = (costFunction(test_theta, X, y.to_numpy().reshape(len(y), 1)), computeGrad(test_theta, X, y.to_numpy().reshape(len(y), 1)))
+    cost, grad = (costFunction(test_theta, X, y), computeGrad(test_theta, X, y))
 
     print('\nCost at test theta: ' + str(cost) + '\n')
     print('Expected cost (approx): 0.218\n')
@@ -94,7 +94,7 @@ def run():
     # optimal parameters theta.
 
     # Set options for fmin
-    xopt = optimize.minimize(fun=costFunction, x0=initial_theta, args=(X, y), method='TNC', jac=computeGrad)
+    xopt = optimize.minimize(fun=costFunction, x0=initial_theta, args=(X, np.reshape(y,len(y))), method='TNC', jac=computeGrad)
 
     print('Cost at theta found by scipy.optimize.minimize : ' + str(xopt.fun) + '\n')
     print('Expected cost (approx): 0.203\n')
