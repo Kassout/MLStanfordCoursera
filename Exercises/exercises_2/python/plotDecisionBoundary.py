@@ -19,19 +19,21 @@ def plotDecisionBoundary(theta, X, y):
     # Plot Data
     plotData(X[:, 1:3], y)
 
-    if len(X) <= 3:
+    if np.shape(X)[1] <= 3:
         # Only need 2 points to define a line, so choose two endpoints
-        plot_x = [min(X.loc[:, 1])-2,  max(X.loc[:, 1])+2]
+        plot_x = [min(X[:, 1])-2,  max(X[:, 1])+2]
 
         # Calculate the decision boundary line
-        plot_y = (-1 / theta[2]) * (theta[1]) * (plot_x + theta[0])
+        plot_y = (-1 / theta[2]) * (np.multiply(theta[1], plot_x) + theta[0])
 
         # Plot, and adjust axes for better viewing
-        plt.plot(plot_x, plot_y)
+        plt.plot(plot_x, plot_y, 'ro-')
 
         # Legend, specific for the exercise
         plt.legend(('Admitted', 'Not admitted', 'Decision Boundary'))
         plt.axis([30, 100, 30, 100])
+        plt.show()
+
     else:
         # Here is the grid range
         u = np.linspace(-1, 1.5, 50)
@@ -41,11 +43,11 @@ def plotDecisionBoundary(theta, X, y):
         # Evaluate z = theta*x over the grid
         for i in range(len(u)):
             for j in range(len(v)):
-                z[i, j] = mapFeature(u[i], v[j]) * theta
+                z[i, j] = mapFeature(u[i], v[j]) @ theta
 
         # important to transpose z before calling contour
         z = np.transpose(z)
 
         # Plot z = 0
         # Notice you need to specify the range [0, 0]
-        contour(u, v, z, [0, 0], 'LineWidth', 2)
+        plt.contour(u, v, z, [0, 0.2], linewidths=2)
