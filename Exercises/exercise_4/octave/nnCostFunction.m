@@ -62,7 +62,36 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+a1 = [ones(m, 1) X];
 
+z2 = a1 * Theta1';
+a2 = [ones(m, 1) sigmoid(z2)];
+
+z3 = a2 * Theta2';
+h = sigmoid(z3);
+
+y_vec = bsxfun(@eq, 1:num_labels,y);
+
+J = ones(1, m) * ((- (y_vec .* log(h)) - ((1 - y_vec) .* log(1 - h))) * ones(num_labels, 1)) / m;
+
+reg_Theta1 = ones(1, size(Theta1, 1)) * ((Theta1 .* Theta1)(:, 2:end) * ones(size(Theta1, 2)-1, 1));
+reg_Theta2 = ones(1, size(Theta2, 1)) * ((Theta2 .* Theta2)(:, 2:end) * ones(size(Theta2, 2)-1, 1));
+
+% final cost with regularization
+J = J + (lambda / (2*m) * (reg_Theta1 + reg_Theta2));
+
+delta3 = h - y_vec;
+delta2 = (delta3 * Theta2)(:, 2:end) .* sigmoidGradient(z2);
+
+% calculation of partial derivatives from the error signals
+Theta2_grad = (delta3' * a2) / m;
+Theta1_grad = (delta2' * a1) / m;
+
+% calculation of regularization parameters
+% (2:end) ensures no regularization of biases
+% as seen in equation (6)
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda * Theta2(:, 2:end) / m;
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda * Theta1(:, 2:end) / m;
 
 
 
