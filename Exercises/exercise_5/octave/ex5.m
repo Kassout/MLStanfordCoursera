@@ -165,6 +165,8 @@ pause;
 %
 
 lambda = 0;
+% lambda = 1; => fit well
+% lambda = 100; => don't fit well
 [theta] = trainLinearReg(X_poly, y, lambda);
 
 % Plot training data and fit
